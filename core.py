@@ -77,7 +77,7 @@ def vMode():
     return
 
 
-def aMode():
+def sMode():
     print("Add Mode: Scan Items Into a Tote\n\nScan your items now, when finished, simply type 'continue'\nto complete the transfers.")
     userScan = []
     data = loadJSON()
@@ -150,10 +150,10 @@ def rMode():
 
 def tMode():
     data = loadJSON()
-    blankArr = []
+    blankArr = {}
     mode = input("\nTote Mode:\n'c' - Create a New Tote\n'd' - Delete an Existing Tote\n'exit' - Go Back\n\nChoose Mode: ")
     if mode.lower() == 'c':
-        newTote = input("Scan Tote Barcode or Enter Name: ")
+        newTote = input("Scan Tote Barcode or Identifier: ")
         if newTote.lower() == 'exit':
             startUp()
             return
@@ -161,9 +161,20 @@ def tMode():
             try:
                 try:
                     test = data[newTote]
-                    print('\nTote Already Exists.\n')
+                    print('\nTote Already Exists.\tn')
                 except Exception:
+                    check = input("Create nickname for the tote? (y/n): ")
+                    if check.lower() == "n":
+                        toteName = newTote
+                    elif check.lower() == "y":
+                        toteName = input("Add a tote nickname: ")
+                    else:
+                        print("\nNot a valid input, asssuming no.\n")
+                        toteName = newTote
+
                     data[newTote] = blankArr
+                    data[newTote]['parts'] = []
+                    data[newTote]['name'] = toteName
                     writeJSON(data)
                     print("\nCreated new tote '{}'.\n".format(newTote))
             except Exception:
@@ -186,10 +197,11 @@ def tMode():
             return
 
         doubleCheck = input(
-            "\nAre you sure you want to delete tote '{}'? (y/n)".format(deleteTote))
+            "\nAre you sure you want to delete tote '{}'? (y/n): ".format(deleteTote))
 
         if doubleCheck.lower() == 'y':
             del(data[deleteTote])
+            print("Deleted tote '{}'".format(deleteTote))
             writeJSON(data)
             startUp()
 
@@ -208,12 +220,12 @@ def tMode():
 
 
 def startUp():
-    selectMode = input("\nSelect Mode:\n'v' - Verify Tote\n'a' - Scan Items Into a Tote\n'r' - Remove Items From a Tote\n't' - Tote Mode: Create or Delete Totes\n\nChoose Mode: ")
+    selectMode = input("\nSelect Mode:\n'v' - Verify Tote\n's' - Scan Items Into a Tote\n'r' - Remove Items From a Tote\n't' - Tote Mode: Create or Delete Totes\n\nChoose Mode: ")
 
     if (selectMode.lower() == "v"):
         vMode()
-    elif (selectMode.lower() == "a"):
-        aMode()
+    elif (selectMode.lower() == "s"):
+        sMode()
     elif (selectMode.lower() == 'r'):
         rMode()
     elif (selectMode.lower() == 't'):
