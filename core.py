@@ -331,7 +331,7 @@ def lMode():
     toteNum = int(input("Select Tote To View Contents of: ")) # Get the tote the user selected.
 
     barcode = list(data.keys())[toteNum - 1]               # Gets the selected tote's barcode/identifier.
-    print("\n\n{}\n".format(data[barcode]['name'])
+    print("\n\n{}\n".format(data[barcode]['name']))
 
     length = len(data[barcode]['parts'])             # Assigns "length" the amount of components in kit.
 
