@@ -97,6 +97,7 @@ def vMode():
             # The user chose No or entered an invalid character.
             else:
                 print("\nNo changes made.\n")
+                startUp()
 
 
         # No special inputs were made, we assume a component barcode was scanned.
